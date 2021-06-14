@@ -24,15 +24,15 @@ import lombok.Setter;
 @Component
 @Entity(name = "LectureInfo")
 @Table(name = "LectureInfoTable")
-@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class LectureModel {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "LectureID", updatable = false, nullable = false)
-	private Long lectureid;
+	private String lecture_id;
 	
 	@Autowired
 	@ManyToOne
@@ -42,7 +42,7 @@ public class LectureModel {
 	@Autowired
 	@ManyToOne
 	@JoinColumn(name = "professorid", nullable = false)
-	private ProfessorProfile professorObj;
+	private ProfessorProfile professor;
 	
 	@Column(name = "StartTime")
 	private LocalTime startTime;
@@ -50,7 +50,7 @@ public class LectureModel {
 	private LocalTime endTime;
 	
 	@Column(name = "Description")
-	private String desc;
+	private String description;
 	
 	@Column(name = "LectureCancel", nullable = false)
 	private Boolean lectureCancelled = false;

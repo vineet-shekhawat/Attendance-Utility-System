@@ -1,39 +1,40 @@
 package com.attendanceUtilitySystem.utility.services.profiles;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
+import com.attendanceUtilitySystem.utility.dao.profiles.AbstractUserProfileDao;
+import com.attendanceUtilitySystem.utility.models.profiles.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.attendanceUtilitySystem.utility.dao.UserProfileDao;
-import com.attendanceUtilitySystem.utility.models.profiles.ProfessorProfile;
-import com.attendanceUtilitySystem.utility.models.profiles.StudentProfile;
 import com.attendanceUtilitySystem.utility.models.profiles.TypeOfUser;
-import com.attendanceUtilitySystem.utility.models.profiles.UserProfile;
+
 
 @Service
-public class ProfileServiceImplementation<Profile extends UserProfile> implements ProfileService {
-	
-	List<Profile> users = new ArrayList<>();
-	
+public abstract class ProfileServiceImplementation<Profile extends UserProfile, ID extends Serializable>
+		implements ProfileService<Profile,ID>{
+
+	private AbstractUserProfileDao<Profile, ID> userDao;
+
 	@Autowired
-	private UserProfileDao<Profile> userDao;
-	
+	public ProfileServiceImplementation(AbstractUserProfileDao<Profile,ID> userRepo){
+		this.userDao = userRepo;
+	}
+
 	@Override
 	public List<Profile> fetchProfiles(String user_id, TypeOfUser type) {
 		return userDao.findAll();
 	}
 
 	@Override
-	public Boolean updateProfile(Object account, TypeOfUser type) {
-		
-		return null;
+	public Boolean updateProfile(Profile account, TypeOfUser type) {
+		userDao.save(account);
+		return true;
 	}
 
 	@Override
-	public void addProfile(Object account) {
-		userDao.save((Profile) account);
-		
+	public void addProfile(Profile account, TypeOfUser type) {
+		userDao.save(account);
 	}
 }

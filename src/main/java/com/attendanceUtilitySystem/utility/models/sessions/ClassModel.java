@@ -25,28 +25,28 @@ import lombok.Setter;
 @Component
 @Entity(name = "ClassInfo")
 @Table(name = "ClassInfoTable")
-@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class ClassModel {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Class_ID", updatable = false, nullable = false)
-	private Long class_id;
+	private String class_id;
 	
-	@Column(name = "Yearofjoining", updatable = false, nullable = false)
+	@Column(name = "year", updatable = false, nullable = false)
 	private String year;
-	@Column(name = "Branchname", updatable = false, nullable = false)
+	@Column(name = "branch_name", updatable = false, nullable = false)
 	private String branch;
-	@Column(name = "Section_no", updatable = false, nullable = false)
+	@Column(name = "section_name", updatable = false, nullable = false)
 	private String section;
 	
 	@Autowired
 	@OneToMany(targetEntity = StudentProfile.class, cascade = CascadeType.ALL, mappedBy = "classinfo")
-	private List<StudentProfile> students;
+	private List<StudentProfile> student;
 	
 	@Autowired
 	@OneToMany(targetEntity = LectureModel.class, cascade = CascadeType.ALL, mappedBy = "classinfo")
-	private List<LectureModel> lectures;
+	private List<LectureModel> lecture;
 	
 }

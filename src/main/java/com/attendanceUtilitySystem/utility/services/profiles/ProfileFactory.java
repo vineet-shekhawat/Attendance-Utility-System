@@ -11,18 +11,18 @@ import com.attendanceUtilitySystem.utility.models.profiles.TypeOfUser;
 @Component
 public class ProfileFactory {
 
-	@Autowired
-	private ProfileService<StudentProfile> stuProfile;
-	
-	@Autowired
-	private ProfileService<ProfessorProfile> profProfile;
-	
-	public ProfileService getUserProfileService(TypeOfUser user){
-		switch (user) {
-		case Teacher: return profProfile;
-		case Student: return stuProfile;
-		default: return stuProfile;
-			//throw new IllegalArgumentException("Unexpected value: " + );
-		}
-	}
+//	@Autowired
+//	private ProfileService<StudentProfile> stuProfile;
+//	@Autowired
+//	private ProfileService<ProfessorProfile> profProfile;
+//
+//	public ProfileService getUserProfileService(TypeOfUser user){
+//		switch (user) {
+//		case Teacher: return profProfile;
+//		case Student: return stuProfile;
+//		default: return stuProfile;
+//			//throw new IllegalArgumentException("Unexpected value: " + );
+//		}
+//	}
+
 }

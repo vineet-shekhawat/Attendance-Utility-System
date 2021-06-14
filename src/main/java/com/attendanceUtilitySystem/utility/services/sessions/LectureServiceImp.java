@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.attendanceUtilitySystem.utility.dao.LectureInfoDao;
+import com.attendanceUtilitySystem.utility.dao.sessions.LectureInfoDao;
 import com.attendanceUtilitySystem.utility.models.sessions.LectureModel;
 
 @Service

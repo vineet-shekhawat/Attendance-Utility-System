@@ -14,18 +14,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Component
 @MappedSuperclass
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfile {
-	
+public class UserProfile implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long user_id;
-	
+	private String user_id;
+
 	@Column(name = "name")
 	private String username;
 	@Column(name =  "phone_no")
