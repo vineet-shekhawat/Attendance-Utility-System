@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.attendanceUtilitySystem.utility.models.profiles.StudentProfile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +39,7 @@ public class SubjectModel {
 	private String description;
 
 	@Autowired
+	@JsonIgnoreProperties("subject")
 	@OneToMany(targetEntity = ProfessorProfile.class, cascade = CascadeType.ALL, mappedBy = "subject")
 	private List<ProfessorProfile> professor;
 

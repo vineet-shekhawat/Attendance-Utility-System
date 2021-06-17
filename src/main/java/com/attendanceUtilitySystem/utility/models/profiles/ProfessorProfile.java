@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,10 +24,12 @@ public class ProfessorProfile extends UserProfile {
 	@Autowired
 	@JoinColumn(name = "subject_id", nullable = false)
 	@ManyToOne
+	@JsonIgnoreProperties("professor")
 	private SubjectModel subject;
 	
-//	@Autowired
-//	@OneToMany(targetEntity = LectureModel.class, cascade = CascadeType.ALL, mappedBy = "professor")
-//	private List<LectureModel> lecture;
-//
+	@Autowired
+	@JsonIgnore
+	@OneToMany(targetEntity = LectureModel.class, cascade = CascadeType.ALL, mappedBy = "professor")
+	private List<LectureModel> lecture;
+
 }

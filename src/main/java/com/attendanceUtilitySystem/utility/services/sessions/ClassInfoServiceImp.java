@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.attendanceUtilitySystem.utility.dao.sessions.ClassInfoDao;
 import com.attendanceUtilitySystem.utility.models.sessions.ClassModel;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ClassInfoServiceImp implements ClassInfoService {
 
@@ -20,17 +22,14 @@ public class ClassInfoServiceImp implements ClassInfoService {
 
 	@Autowired
 	private StudentProfileDao studentDao;
-	
-	@Override
-	public void insertClassInfo(ClassModel classinfo) {
-		List<StudentProfile> students = classinfo.getStudent();
-		classinfo.setStudent(Collections.emptyList());
-		classDao.save(classinfo);
 
-		students.forEach((student)->{
-			student.setClassinfo(classinfo);
-			studentDao.save(student);
-		});
+	@Override
+	public ClassModel getClassBasicInfoByID(String classid) {
+		if(classDao.findById(classid).isPresent()) {
+			return classDao.getOne(classid);
+		} else{
+			return null;
+		}
 	}
 
 	@Override
@@ -39,16 +38,47 @@ public class ClassInfoServiceImp implements ClassInfoService {
 	}
 
 	@Override
-	public ClassModel getClassInfoByID(String classid) {
-		return classDao.getClassbyClassID(classid);
-	}
-
-	@Override
-	public void deleteClassInfo(String classid) {
-		// TODO Auto-generated method stub
-		if(classDao.findById(classid).isPresent()){
-			classDao.deleteById(classid);
+	public ClassModel ClassInfoWithStudentsByID(String classid) {
+		if(classDao.findById(classid).isPresent()) {
+			return classDao.getOne(classid);
+		} else{
+			return null;
 		}
 	}
 
+	@Override
+	@Transactional
+	public String insertClassInfo(ClassModel classinfo) {
+		if(classDao.findById(classinfo.getClassid()).isPresent()) {
+			return "Class already exists";
+		} else{
+			List<StudentProfile> students = classinfo.getStudent();
+
+			ClassModel newclassinfo = new ClassModel();
+			newclassinfo.setClassid(classinfo.getClassid());
+			newclassinfo.setBranch(classinfo.getBranch());
+			newclassinfo.setSection(classinfo.getSection());
+			newclassinfo.setYear(classinfo.getYear());
+			//classinfo.setStudent(Collections.emptyList());
+			classDao.save(newclassinfo);
+
+			students.forEach((student) -> {
+				student.setClassinfo(classinfo);
+				studentDao.save(student);
+			});
+
+			return "Class inserted successfully";
+		}
+	}
+
+	@Override
+	@Transactional
+	public String deleteClassInfo(String classid) {
+		if(classDao.findById(classid).isPresent()) {
+			classDao.deleteById(classid);
+			return "class info deleted successfully";
+		} else {
+			return "class doesn't exists";
+		}
+	}
 }

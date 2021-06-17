@@ -14,7 +14,12 @@ import com.attendanceUtilitySystem.utility.services.profiles.ProfileServiceImple
 @Service
 public interface ProfileService<Profile extends UserProfile, ID extends Serializable> {
 
-	public List<Profile> fetchProfiles(String user_id, TypeOfUser type);
-	public Boolean updateProfile(Profile account, TypeOfUser type);
-	public void addProfile(Profile account, TypeOfUser type);
+	public Profile fetchProfile(String user_id);
+	public String updateProfile(Profile account);
+
+	//ADMIN APIs
+	public List<Profile> fetchAllProfiles();
+	public String insertProfile(Profile account);
+	public String deleteProfile(String user_id);
+
 }

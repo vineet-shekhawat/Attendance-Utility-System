@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import java.lang.String;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +34,7 @@ import lombok.Setter;
 public class ClassModel {
 	@Id
 	@Column(name = "Class_ID", updatable = false, nullable = false)
-	private String class_id;
+	private String classid;
 	
 	@Column(name = "year", updatable = false, nullable = false)
 	private String year;
@@ -42,11 +44,12 @@ public class ClassModel {
 	private String section;
 	
 	@Autowired
+	@JsonIgnoreProperties("classinfo")
 	@OneToMany(targetEntity = StudentProfile.class, cascade = CascadeType.ALL, mappedBy = "classinfo")
 	private List<StudentProfile> student;
 	
 	@Autowired
+	@JsonIgnore()
 	@OneToMany(targetEntity = LectureModel.class, cascade = CascadeType.ALL, mappedBy = "classinfo")
 	private List<LectureModel> lecture;
-	
 }

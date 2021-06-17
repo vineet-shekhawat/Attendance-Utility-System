@@ -1,5 +1,7 @@
 package com.attendanceUtilitySystem.utility.models.sessions;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,16 +47,24 @@ public class LectureModel {
 	@ManyToOne
 	@JoinColumn(name = "professorid", nullable = false)
 	private ProfessorProfile professor;
-	
+
+	@JsonFormat(pattern = "hh:mm:ss")
 	@Column(name = "StartTime")
 	private LocalTime startTime;
+	@JsonFormat(pattern = "hh:mm:ss a")
 	@Column(name = "EndTime")
 	private LocalTime endTime;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@Column(name = "dateoflecture")
+	private LocalDate dateOfLecture;
 	
 	@Column(name = "Description")
 	private String description;
 	
-	@Column(name = "LectureCancel", nullable = false)
-	private Boolean lectureCancelled = false;
+	@Column(name = "lectureCancelled", nullable = false)
+	private Boolean lectureCancelled;
 
+	@Column(name = "startAttendance", nullable = false)
+	private Boolean startAttendance;
 }

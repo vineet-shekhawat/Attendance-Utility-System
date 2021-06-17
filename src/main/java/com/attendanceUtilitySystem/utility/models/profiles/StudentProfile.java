@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ public class StudentProfile extends UserProfile {
 
 	@Autowired
 	@ManyToOne
+	@JsonIgnoreProperties("student")
 	@JoinColumn(name = "class_id", nullable = false)
 	private ClassModel classinfo;
 

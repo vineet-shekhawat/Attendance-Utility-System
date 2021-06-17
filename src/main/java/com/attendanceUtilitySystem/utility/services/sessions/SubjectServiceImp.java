@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.attendanceUtilitySystem.utility.dao.sessions.SubjectInfoDao;
 import com.attendanceUtilitySystem.utility.models.sessions.SubjectModel;
 
+import javax.transaction.Transactional;
+
 @Service
 public class SubjectServiceImp implements SubjectService {
 
@@ -21,16 +23,22 @@ public class SubjectServiceImp implements SubjectService {
 	ProfessorProfileDao professorDao;
 	
 	@Override
-	public boolean insertSubject(SubjectModel subject) {
-		List<ProfessorProfile> professors = subject.getProfessor();
-		subject.setProfessor(Collections.emptyList());
-		subjectDao.save(subject);
+	@Transactional
+	public String insertSubject(SubjectModel subject) {
+		if(subjectDao.findById(subject.getSubject_id()).isPresent()){
+			return "subject already exists";
+		} else {
 
-		for(ProfessorProfile prof: professors){
-			prof.setSubject(subject);
-			professorDao.save(prof);
+			List<ProfessorProfile> professors = subject.getProfessor();
+			subject.setProfessor(Collections.emptyList());
+			subjectDao.save(subject);
+
+			for (ProfessorProfile prof : professors) {
+				prof.setSubject(subject);
+				professorDao.save(prof);
+			}
+			return "subject is inserted with its professors";
 		}
-		return true;
 	}
 
 	@Override
@@ -40,16 +48,22 @@ public class SubjectServiceImp implements SubjectService {
 
 	@Override
 	public SubjectModel getSubjectID(String subject_Id) {
-		return subjectDao.getSubjectbySubjectID(subject_Id);
+		if(subjectDao.findById(subject_Id).isPresent()){
+			return subjectDao.getSubjectbySubjectID(subject_Id);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
-	public boolean deleteSubject(String subject_Id) {
-		//TODO : IMPLEMENTATION
+	@Transactional
+	public String deleteSubject(String subject_Id) {
 		if(subjectDao.findById(subject_Id).isPresent()){
 			subjectDao.deleteById(subject_Id);
+			return "subject deleted successfully";
+		} else{
+			return "subject doesn't exists";
 		}
-		return true;
 	}
 
 }

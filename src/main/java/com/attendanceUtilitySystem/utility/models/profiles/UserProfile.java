@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +32,11 @@ public class UserProfile implements Serializable {
 	private String username;
 	@Column(name =  "phone_no")
 	private String phoneno;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "passcode")
 	private String password;
+
 	@Column(name = "email")
 	private String email;
 	

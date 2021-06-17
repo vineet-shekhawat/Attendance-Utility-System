@@ -8,8 +8,7 @@ import com.attendanceUtilitySystem.utility.models.profiles.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.attendanceUtilitySystem.utility.models.profiles.TypeOfUser;
-
+import javax.transaction.Transactional;
 
 @Service
 public abstract class ProfileServiceImplementation<Profile extends UserProfile, ID extends Serializable>
@@ -23,18 +22,48 @@ public abstract class ProfileServiceImplementation<Profile extends UserProfile, 
 	}
 
 	@Override
-	public List<Profile> fetchProfiles(String user_id, TypeOfUser type) {
+	public Profile fetchProfile(String user_id) {
+		if(userDao.findById((ID) user_id).isPresent()){
+			return userDao.getOne((ID) user_id);
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public String updateProfile(Profile account) {
+		if(userDao.findById((ID) account.getUser_id()).isPresent()){
+			userDao.save(account);
+			return "Profile Updated";
+		}
+		return "Profile doesn't exists";
+
+	}
+
+	@Override
+	public List<Profile> fetchAllProfiles() {
 		return userDao.findAll();
 	}
 
 	@Override
-	public Boolean updateProfile(Profile account, TypeOfUser type) {
-		userDao.save(account);
-		return true;
+	@Transactional
+	public String insertProfile(Profile account) {
+		if(userDao.findById((ID) account.getUser_id()).isPresent()){
+			return "Profile already exists";
+		} else{
+			userDao.save(account);
+			return "Profile inserted successfully";
+		}
 	}
 
 	@Override
-	public void addProfile(Profile account, TypeOfUser type) {
-		userDao.save(account);
+	@Transactional
+	public String deleteProfile(String user_id) {
+		if(userDao.findById((ID) user_id).isPresent()){
+			userDao.deleteById((ID) user_id);
+			return "Profile exists, now deleted successfully";
+		} else{
+			return "Profile doesn't exists";
+		}
 	}
 }

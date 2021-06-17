@@ -8,8 +8,11 @@ import com.attendanceUtilitySystem.utility.models.sessions.SubjectModel;
 
 @Service
 public interface SubjectService {
-	public boolean insertSubject(SubjectModel subject);
-	public List<SubjectModel> getSubjectsAll();
 	public SubjectModel getSubjectID(String subject_Id);
-	public boolean deleteSubject(String subject_Id);
+	//public SubjectModel subjectInfoWithProfessorsByID(String subjectid);
+
+	//ADMIN APIs
+	public List<SubjectModel> getSubjectsAll();
+	public String insertSubject(SubjectModel subject);
+	public String deleteSubject(String subject_Id);
 }
